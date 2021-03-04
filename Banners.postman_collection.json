@@ -1,0 +1,3473 @@
+{
+	"info": {
+		"_postman_id": "ef612f94-77b6-4592-9253-91a72bd5338a",
+		"name": "Marketing: Banner Services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth users login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6c92eac0-7750-4158-bc98-3f357f34aaf0",
+						"exec": [
+							"var token = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"MBTOKEN\", token.authToken); \r",
+							"\r",
+							"\r",
+							"tests[\"Login Successfully\"] = responseCode.code === 200;\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"{{password}}\",\r\n  \"username\": \"{{username}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/auth/users/login",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"auth",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cities : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "098ebe19-bac1-4e6c-9828-605e26fccefe",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable (\"cityid\", json);",
+							"",
+							"",
+							"    ",
+							"tests[\"City Created successfully\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "53da7bd1-8a33-4d0f-bac6-9bd07bcd84f8",
+						"exec": [
+							"postman.setEnvironmentVariable (\"slug\", slug());",
+							"",
+							"",
+							"function slug()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"name\": \"{{slug}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/cities",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manufacturer : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"mfid\", json);",
+							"",
+							"",
+							"pm.test(\"Manufacturer Created successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"mfname\", mfname());",
+							"",
+							"",
+							"function mfname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{mfname}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/manufacturers",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"manufacturers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categories : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"categoryId\", json);",
+							"",
+							"",
+							"pm.test(\"category Created successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"categoryName\", categoryName());",
+							"",
+							"",
+							"function categoryName()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							" ",
+							"postman.setEnvironmentVariable(\"image\", image());",
+							"",
+							"",
+							"function image()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"name\": \"{{categoryName}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/categories",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hubs : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"hubid\", json);",
+							"pm.test(\"create hub successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"name\", name());\r",
+							"\r",
+							"function name()\r",
+							"{\r",
+							"    var text = \"\";\r",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";\r",
+							"\r",
+							"    for( var i=0; i < 10; i++ )\r",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));\r",
+							"\r",
+							"    return text;\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"Wz 2677 A\",\r\n  \"cityId\": \"{{cityid}}\",\r\n  \"description\": \"No desc\",\r\n  \"name\": \"{{name}}\"\r\n} "
+				},
+				"url": {
+					"raw": "{{MBQA}}/hubs",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"hubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subcategory : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"subcategoryId\", json);",
+							"",
+							"",
+							"pm.test(\"subcategory Created successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"categoryName\", categoryName());",
+							"",
+							"",
+							"function categoryName()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							" ",
+							"postman.setEnvironmentVariable(\"image\", image());",
+							"",
+							"",
+							"function image()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"image\": \"{{image}}\",\r\n  \"name\": \"{{name}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/subcategories",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"subcategories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Brand : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"BrandId\", json);",
+							"",
+							"",
+							"pm.test(\"Brand  Created successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"brandName\", brandName());",
+							"",
+							"",
+							"function brandName()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"manufacturerId\": \"{{mfid}}\",\r\n  \"name\": \"{{brandName}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/brands",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"brands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subcategories-type : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"subctyId\", json);",
+							"",
+							"pm.test(\"subcategory type  Created successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{name}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/subcategories-type",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"subcategories-type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d55f3e4-20c1-4d26-afc2-344bc926e766",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"productid\", responseBody);",
+							"",
+							"",
+							"    ",
+							"tests[\"Product Created successfully\"] = responseCode.code === 201;"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "352f22e7-92ba-48c2-a620-c235e38c8f27",
+						"exec": [
+							"postman.setEnvironmentVariable(\"hsn\", hsn());",
+							"",
+							"",
+							"function hsn()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \" 0123456789\";",
+							"",
+							"    for( var i=0; i < 8; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"imagesrc\", imagesrc());",
+							"function imagesrc()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"sku\", sku());",
+							"function sku()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"brandId\": \"{{BrandId}}\",\r\n  \"categoryId\":\"{{categoryId}}\",\r\n  \"cessgst\": 10,\r\n  \"cgst\": 10,\r\n  \"color\": \"#123\",\r\n  \"hsnCode\": \"{{hsn}}\",\r\n  \"igst\": 20,\r\n  \"imageSrc\": \"{{imagesrc}}.jpg\",\r\n  \"isLarge\": 0,\r\n  \"isSample\": 0,\r\n  \"name\": \"{{name}}\",\r\n  \"sgst\": 10,\r\n  \"sheet\": 1,\r\n  \"sku\": \"{{sku}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"subcategoryTypeId\": \"{{subctyId}}\",\r\n  \"weight\": \"300 MG\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/products/catalogs",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"products",
+						"catalogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"BannerId\", json);",
+							"",
+							"",
+							"pm.test(\"Banner Created successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"www.google.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Update existing",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner updated successfully\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 2,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"2\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/{{BannerId}}",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"{{BannerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank hubid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank locationType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank banner type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank StartDate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank ExpiryDate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank Sort order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"{{image}}.jpg\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create, Validate with blank image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner validation check\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"bname\", bname());",
+							"",
+							"",
+							"function bname()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"url\", url());",
+							"",
+							"",
+							"function url()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"postman.setEnvironmentVariable(\"locationtype\", locationtype());",
+							"",
+							"",
+							"function locationtype()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"name\", name());",
+							"",
+							"",
+							"function name()",
+							"{",
+							"    var text = \"\";",
+							"    var possible = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";",
+							"",
+							"    for( var i=0; i < 10; i++ )",
+							"        text += possible.charAt(Math.floor(Math.random() * possible.length));",
+							"",
+							"    return text;",
+							"}",
+							"",
+							"",
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+2); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"active\": 1,\r\n  \"bannerType\": \"1\",\r\n  \"categoryId\": \"{{categoryId}}\",\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"hubId\": \"{{hubid}}\",\r\n  \"image\": \"\",\r\n  \"locationCategory\": 1,\r\n  \"locationType\": \"1\",\r\n  \"name\": \"{{bname}}\",\r\n  \"productId\": \"{{productid}}\",\r\n  \"productSearch\": \"string\",\r\n  \"sortOrder\": \"1\",\r\n  \"startDate\": \"{{startDate}}\",\r\n  \"subcategoryId\": \"{{subcategoryId}}\",\r\n  \"url\": \"{{url}}.com\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Get with id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner fetched successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/{{BannerId}}",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"{{BannerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Get all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner fetched successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Get all including deleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner fetched successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/all",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Autocomplete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner autocomplete fetched successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/autocomplete?text=h",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"autocomplete"
+					],
+					"query": [
+						{
+							"key": "text",
+							"value": "h"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist with all blank",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist with all blank is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n    \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n   \r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist with page number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist with page number is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n  \"pageNo\": 1,\r\n  \"pageSize\": 50\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist with sorting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist with sorting is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n    \"active\": \"ASC\",\r\n    \"bannerType\": \"ASC\",\r\n    \"expiryDate\": \"ASC\",\r\n    \"id\": \"ASC\",\r\n    \"locationType\": \"ASC\",\r\n    \"name\": \"ASC\",\r\n    \"sortOrder\": \"ASC\",\r\n    \"startDate\": \"ASC\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist completed with all blank",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist completed with all blank is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n   \r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/completed",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"completed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist completed with page number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist completed with page number is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n  \"pageNo\": 1,\r\n  \"pageSize\": 50\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/completed",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"completed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist completed with sorting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist completed with sorting is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n    \"active\": \"ASC\",\r\n    \"bannerType\": \"ASC\",\r\n    \"expiryDate\": \"ASC\",\r\n    \"id\": \"ASC\",\r\n    \"locationType\": \"ASC\",\r\n    \"name\": \"ASC\",\r\n    \"sortOrder\": \"ASC\",\r\n    \"startDate\": \"ASC\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/completed",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"completed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist running with all blank",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist running with all blank is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n   \r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/running",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"running"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist running with page number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist running with page number is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n  \"pageNo\": 1,\r\n  \"pageSize\": 50\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/running",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"running"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist running with sorting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist running with sorting is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n    \"active\": \"ASC\",\r\n    \"bannerType\": \"ASC\",\r\n    \"expiryDate\": \"ASC\",\r\n    \"id\": \"ASC\",\r\n    \"locationType\": \"ASC\",\r\n    \"name\": \"ASC\",\r\n    \"sortOrder\": \"ASC\",\r\n    \"startDate\": \"ASC\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/running",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"running"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist scheduled with all  blank",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist scheduled with all blank is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n    \r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/scheduled",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"scheduled"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist scheduled with page number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist scheduled with page number is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n  \"pageNo\": 1,\r\n  \"pageSize\": 50\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/scheduled",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"scheduled"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist scheduled with sorting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist scheduled with sorting is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n    \"active\": \"ASC\",\r\n    \"bannerType\": \"ASC\",\r\n    \"expiryDate\": \"ASC\",\r\n    \"id\": \"ASC\",\r\n    \"locationType\": \"ASC\",\r\n    \"name\": \"ASC\",\r\n    \"sortOrder\": \"ASC\",\r\n    \"startDate\": \"ASC\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/scheduled",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"scheduled"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist stopped with all blank",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist stopped with all blank is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n    \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n    \r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/stopped",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"stopped"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist stopped with page number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist stopped with page number is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n  \"pageNo\": 1,\r\n  \"pageSize\": 50\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/stopped",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"stopped"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Datalist stopped with sorting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner datalist stopped with sorting is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"filters\": {\r\n   \r\n  },\r\n  \"pageNo\": 1,\r\n  \"pageSize\": 25,\r\n  \"sort\": {\r\n    \"active\": \"ASC\",\r\n    \"bannerType\": \"ASC\",\r\n    \"expiryDate\": \"ASC\",\r\n    \"id\": \"ASC\",\r\n    \"locationType\": \"ASC\",\r\n    \"name\": \"ASC\",\r\n    \"sortOrder\": \"ASC\",\r\n    \"startDate\": \"ASC\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/datalist/stopped",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"datalist",
+						"stopped"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Export",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner export is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/export",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"export"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Export Completed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner export completed is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/export/completed",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"export",
+						"completed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Export running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner export running is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/export/running",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"export",
+						"running"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Export scheduled",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner export scheduled is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/export/scheduled",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"export",
+						"scheduled"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Export stopped",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Banner export stopped is working fine\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/export/stopped",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"export",
+						"stopped"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Create duplicate of existing banner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"",
+							"pm.test(\"Create duplicate Banner successfully\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							"postman.setEnvironmentVariable(\"endDate\", endDate());",
+							"",
+							" ",
+							"function endDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear()+1);",
+							"  month = \"\" + (now.getMonth() + 1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + now.getDate(); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + now.getSeconds(); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							"postman.setEnvironmentVariable(\"startDate\", startDate());",
+							"",
+							" ",
+							"function startDate () {",
+							"  now = new Date();",
+							"  year = \"\" + (now.getFullYear());",
+							"  month = \"\" + (now.getMonth()+1); if (month.length == 1) { month = \"0\" + month; }",
+							"  day = \"\" + (now.getDate()+1); if (day.length == 1) { day = \"0\" + day; }",
+							"  hour = \"\" + now.getHours(); if (hour.length == 1) { hour = \"0\" + hour; }",
+							"  minute = \"\" + now.getMinutes(); if (minute.length == 1) { minute = \"0\" + minute; }",
+							"  second = \"\" + (now.getSeconds()+1); if (second.length == 1) { second = \"0\" + second; }",
+							"  return year + \"-\" + month + \"-\" + day + \" \" + hour + \":\" + minute +\":\" + second;",
+							"",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"expiryDate\": \"{{endDate}}\",\r\n  \"startDate\": \"{{startDate}}\"\r\n}"
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/duplicate/{{BannerId}}",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"duplicate",
+						"{{BannerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Banner : Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "acacbbad-c2b3-4e60-9b06-c011495fea32",
+						"exec": [
+							"pm.test(\"Banner delete successfully \", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0f2ce842-2905-42d1-aae0-0270db4727c4",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "mb-auth-key",
+						"value": "{{MBTOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{MBQA}}/banners/{{BannerId}}",
+					"host": [
+						"{{MBQA}}"
+					],
+					"path": [
+						"banners",
+						"{{BannerId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
